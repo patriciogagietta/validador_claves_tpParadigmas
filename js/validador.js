@@ -9,6 +9,7 @@ class Automata{
     letrasMinusculas = "abcdefghijklmnopqrstuvwxyz".split("")
     letrasMayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
     numeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    simbolos_array = [ "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "`", "~", "-", "=", "[", "]", "{", "}", ";", ":", "'", '"', ",", ".", "<", ">", "/", "?", "|", "\\"]
 
     validacion(contraseña){
         let estadoActual = 'I';
@@ -21,7 +22,9 @@ class Automata{
                 caracter = 'may'
             } else if (this.numeros.includes(caracter)) {
                 caracter = 'num'
-            }
+            } else if (this.simbolos_array.includes(caracter))
+                caracter = 'sim'
+
             estadoActual = this.transiciones[estadoActual][caracter];
         }
 
@@ -31,7 +34,7 @@ class Automata{
 
 const estados = Array.from({ length: 23 }, (_, i) => i);
 const estadoFinal = 'FINAL';
-const simbolos = ['min', 'may', 'num'];
+const simbolos = ['min', 'may', 'num', 'sim'];
 
 const boton = document.querySelector("#boton")
 const parrafoContraseña = document.querySelector("#parrafo-contraseña")
@@ -39,28 +42,29 @@ const inputContraseña = document.querySelector("#contraseña")
 const botonContraseña = document.querySelector("#boton-contraseña")
 
 const transiciones = {
-    'I': { 'min': 'IV', 'may': 'II', 'num': 'III' },
-    'II': { 'min': 'VI', 'may': 'VII', 'num': 'V' },
-    'III': { 'min': 'VIII', 'may': 'V', 'num': 'IX' },
-    'IV': { 'min': 'X', 'may': 'VI', 'num': 'VIII' },
-    'V': { 'min': 'XII', 'may': 'XI', 'num': 'XI' },
-    'VI': { 'min': 'XIII', 'may': 'XIII', 'num': 'XII' },
-    'VII': { 'min': 'XIII', 'may': 'XIV', 'num': 'XI' },
-    'VIII': { 'min': 'XV', 'may': 'XII', 'num': 'XV' },
-    'IX': { 'min': 'XV', 'may': 'XI', 'num': 'XVI' },
-    'X': { 'min': 'XVII', 'may': 'XIII', 'num': 'XV' },
-    'XI': { 'min': 'XXI', 'may': 'XVIII', 'num': 'XVIII'},
-    'XII': { 'min': 'XXI', 'may': 'XXI', 'num': 'XXI' },
-    'XIII': { 'min': 'XX', 'may': 'XX', 'num': 'XXI' },
-    'XIV': { 'min': 'XX', 'may': 'XIV', 'num': 'XVIII' },
-    'XV': { 'min': 'XIX', 'may': 'XXI', 'num': 'XIX' },
-    'XVI': { 'min': 'XIX', 'may': 'XVIII', 'num': 'XVI' },
-    'XVII': { 'min': 'XVII', 'may': 'XX', 'num': 'XIX' },
-    'XVIII': { 'min': 'FINAL', 'may': 'XVIII', 'num': 'XVIII' },
-    'XIX': { 'min': 'XIX', 'may': 'FINAL', 'num': 'XIX' },
-    'XX': { 'min': 'XX', 'may': 'XX', 'num': 'FINAL' },
-    'XXI': { 'min': 'FINAL', 'may': 'FINAL', 'num': 'FINAL' },
-    'FINAL': { 'min': 'FINAL', 'may': 'FINAL', 'num': 'FINAL' },
+    'I': { 'min': 'IV', 'may': 'II', 'num': 'III', 'sim': "MUERTE" },
+    'II': { 'min': 'VI', 'may': 'VII', 'num': 'V', 'sim': "MUERTE" },
+    'III': { 'min': 'VIII', 'may': 'V', 'num': 'IX', 'sim': "MUERTE" },
+    'IV': { 'min': 'X', 'may': 'VI', 'num': 'VIII', 'sim': "MUERTE" },
+    'V': { 'min': 'XII', 'may': 'XI', 'num': 'XI', 'sim': "MUERTE" },
+    'VI': { 'min': 'XIII', 'may': 'XIII', 'num': 'XII', 'sim': "MUERTE" },
+    'VII': { 'min': 'XIII', 'may': 'XIV', 'num': 'XI', 'sim': "MUERTE" },
+    'VIII': { 'min': 'XV', 'may': 'XII', 'num': 'XV', 'sim': "MUERTE" },
+    'IX': { 'min': 'XV', 'may': 'XI', 'num': 'XVI', 'sim': "MUERTE" },
+    'X': { 'min': 'XVII', 'may': 'XIII', 'num': 'XV', 'sim': "MUERTE" },
+    'XI': { 'min': 'XXI', 'may': 'XVIII', 'num': 'XVIII', 'sim': "MUERTE" },
+    'XII': { 'min': 'XXI', 'may': 'XXI', 'num': 'XXI', 'sim': "MUERTE" },
+    'XIII': { 'min': 'XX', 'may': 'XX', 'num': 'XXI', 'sim': "MUERTE" },
+    'XIV': { 'min': 'XX', 'may': 'XIV', 'num': 'XVIII', 'sim': "MUERTE" },
+    'XV': { 'min': 'XIX', 'may': 'XXI', 'num': 'XIX', 'sim': "MUERTE" },
+    'XVI': { 'min': 'XIX', 'may': 'XVIII', 'num': 'XVI', 'sim': "MUERTE" },
+    'XVII': { 'min': 'XVII', 'may': 'XX', 'num': 'XIX', 'sim': "MUERTE" },
+    'XVIII': { 'min': 'FINAL', 'may': 'XVIII', 'num': 'XVIII', 'sim': "MUERTE" },
+    'XIX': { 'min': 'XIX', 'may': 'FINAL', 'num': 'XIX', 'sim': "MUERTE" },
+    'XX': { 'min': 'XX', 'may': 'XX', 'num': 'FINAL', 'sim': "MUERTE" },
+    'XXI': { 'min': 'FINAL', 'may': 'FINAL', 'num': 'FINAL', 'sim': "MUERTE" },
+    'FINAL': { 'min': 'FINAL', 'may': 'FINAL', 'num': 'FINAL', 'sim': "MUERTE" },
+    'MUERTE': { 'min': 'MUERTE', 'may': 'MUERTE', 'num': 'MUERTE', 'sim': "MUERTE" },
 };
 
 const automata = new Automata(estados, estadoFinal, simbolos, transiciones);
